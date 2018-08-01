@@ -255,7 +255,9 @@ vm_startup_qemu() {
 	qemu_args=("${qemu_args[@]}" "-smp" "$BUILD_JOBS,threads=$BUILD_THREADS")
     fi
     if test "$VM_TYPE" = kvm ; then
-	test "$kvm_console" != ttyAMA0 && kvm_options="$kvm_options -cpu host"
+	if test `uname -m` = "$BUILD_ARCH" ; then
+		test "$kvm_console" != ttyAMA0 && kvm_options="$kvm_options -cpu host"
+	fi
 	test -n "$HUGETLBFSPATH" && kvm_options="$kvm_options -mem-prealloc -mem-path $HUGETLBFSPATH"
     fi
     qemu_append="root=$VM_ROOTDEV"
