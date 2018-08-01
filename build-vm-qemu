@@ -55,7 +55,7 @@ kvm_check_hugetlb() {
     fi
 }
 
-vm_verify_options_kvm() {
+vm_verify_options_qemu() {
     if test -n "$KILL" -o -n "$DO_WIPE" ; then
 	return
     fi  
@@ -219,7 +219,7 @@ vm_verify_options_kvm() {
     fi
 }
 
-vm_startup_kvm() {
+vm_startup_qemu() {
     qemu_bin="$kvm_bin"
     qemu_args=(-drive file="$VM_ROOT",format=raw,if=none,id=disk,serial=0,cache=unsafe -device "$kvm_device",drive=disk)
     if [ -n "$VM_USER" ] ; then
@@ -296,13 +296,13 @@ vm_startup_kvm() {
     test "$qemu_ret" = "137" && cleanup_and_exit 3 "qemu got SIGKILL"
 }
 
-vm_kill_kvm() {
+vm_kill_qemu() {
     if ! fuser -k -TERM "$VM_ROOT" ; then
 	echo "could not kill build in $VM_ROOT, kvm instance is dead already"
     fi
 }
 
-vm_fixup_kvm() {
+vm_fixup_qemu() {
     # check if we will use a kernel from the build root, in this case
     # we assume the kernel does virtio
     if test -z "$VM_KERNEL" -a -e "$BUILD_ROOT/.build.kernel.$VM_TYPE" ; then
@@ -315,32 +315,32 @@ vm_fixup_kvm() {
     fi
 }
 
-vm_attach_root_kvm() {
+vm_attach_root_qemu() {
     :
 }
 
-vm_attach_swap_kvm() {
+vm_attach_swap_qemu() {
     :
 }
 
-vm_detach_root_kvm() {
+vm_detach_root_qemu() {
     :
 }
 
-vm_detach_swap_kvm() {
+vm_detach_swap_qemu() {
     :
 }
 
-vm_cleanup_kvm() {
+vm_cleanup_qemu() {
     :
 }
 
-vm_sysrq_kvm() {
+vm_sysrq_qemu() {
     perl -e 'use Socket; socket(SOCK, PF_UNIX, SOCK_STREAM, 0) || die("socket: $!\n"); 
              connect(SOCK, sockaddr_un("'"$VM_ROOT.qemu/monitor"'")) || die("connect: $!\n");
              print SOCK "sendkey alt-print-'$1'\n";'
 }
 
-vm_wipe_kvm() {
+vm_wipe_qemu() {
     :
 }
