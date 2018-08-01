@@ -281,6 +281,9 @@ Known Parameters:
               Use KVM to secure build process. Your hardware needs to support
               virtualization
 
+  --qemu
+              Use QEMU to secure build process.
+
   --xen
               Use XEN to secure build process, you to run in a XEN Dom0 environment.
 
