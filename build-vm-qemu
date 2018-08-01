@@ -305,7 +305,7 @@ vm_kill_qemu() {
 vm_fixup_qemu() {
     # check if we will use a kernel from the build root, in this case
     # we assume the kernel does virtio
-    if test -z "$VM_KERNEL" -a -e "$BUILD_ROOT/.build.kernel.$VM_TYPE" ; then
+    if test -z "$VM_KERNEL" -a -e "$BUILD_ROOT/.build.kernel.kvm" ; then
 	# ide-hd is the non-virtio default
 	if test "$kvm_device" = ide-hd ; then
 	    kvm_device=virtio-blk-pci
