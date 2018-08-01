@@ -70,6 +70,24 @@ vm_verify_options_qemu() {
 
     # overwrite some options for specific host architectures
     case `uname -m` in
+	x86_64)
+	    if test "$BUILD_ARCH" = aarch64 ; then
+		kvm_bin="/usr/bin/qemu-system-aarch64"
+		kvm_options="-M virt -cpu cortex-a57"
+		kvm_console=ttyAMA0
+		vm_kernel=/boot/Image
+		vm_initrd=/boot/initrd
+	    fi
+	    ;;
+	i686)
+	    if test "$BUILD_ARCH" = armv7l ; then
+		kvm_bin="/usr/bin/qemu-system-aarch64"
+		kvm_options="-M virt -cpu cortex-a15"
+		kvm_console=ttyAMA0
+		vm_kernel=/boot/zImage
+		vm_initrd=/boot/initrd
+	    fi
+	    ;;
 	armv7l)
 	    kvm_bin="/usr/bin/qemu-system-arm"
 	    kvm_console=ttyAMA0
